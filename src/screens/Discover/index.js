@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-import { MoviesService } from '../../services/movies';
-import { REQUEST_STATES } from '../../constants/network';
+import { MoviesService } from 'services/movies';
+import { REQUEST_STATES } from 'constants/network';
+import Movie from 'components/Movie';
+
+import './styles.scss';
 
 function Discover() {
   const [movies, setMovies] = useState([]);
@@ -20,13 +23,15 @@ function Discover() {
 
   return (
     <section className="section section--discover">
-      <h1>Movies</h1>
-      {!loadingList && (
-        movies.map(movie => (
-          <h3 key={movie.id}>{movie.title}</h3>
-        ))
-      )}
-      {loadingList && <h2>Loading movies...</h2>}
+      <h1>Everything you want to watch, the way you like it</h1>
+      <div className="movies-list">
+        {!loadingList && (
+          movies.map(movie => (
+            <Movie key={movie.id} className="discover__movie" {...movie} />
+          ))
+        )}
+        {loadingList && <h2>Loading movies...</h2>}
+      </div>
     </section>
   );
 }
