@@ -1,0 +1,16 @@
+.rating-meter {
+  display: flex;
+}
+
+.star {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  text-align: center;
+
+  &__input {
+    cursor: pointer;
+  }
+}
