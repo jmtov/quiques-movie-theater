@@ -1,0 +1,10 @@
+.field {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    border: thin solid var(--text-color);
+    font-size: 1em;
+    padding: 10px 20px;
+  }
+}
