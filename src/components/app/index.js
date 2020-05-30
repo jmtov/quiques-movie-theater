@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 
-import Discover from '../../screens/Discover';
-import MoviesContextProvider from 'context/movies';
+import Discover from 'screens/Discover';
 
 function App() {
   useEffect(() => {
@@ -10,9 +9,7 @@ function App() {
 
   return (
     <div className="app">
-      <MoviesContextProvider>
-        <Discover />
-      </MoviesContextProvider>
+      <Discover />
     </div>
   );
 }

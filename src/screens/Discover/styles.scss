@@ -5,7 +5,15 @@
   max-width: 1000px;
   width: 100%;
 
-  &__search-input {
+  &__header {
+    padding: 20px;
+  }
+
+  &__title {
+    margin-bottom: 20px;
+  }
+
+  &__search-bar {
     margin-bottom: 20px;
   }
 }

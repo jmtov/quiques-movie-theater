@@ -1,61 +1,73 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useEffect, useMemo, useReducer } from 'react';
 
 import { REQUEST_STATES } from 'constants/network';
-import { INPUT_TYPES } from 'constants/form';
-import { MoviesContext } from 'context/movies';
-import { debounce } from 'utils/debounce';
-import Movie from 'components/Movie';
-import Field from 'components/Field';
+import { MoviesService } from 'services/movies';
+import RatingMeter from 'components/RatingMeter';
 
-import { DISCOVER_FIELDS } from './constants';
+import { reducer, initialState, ACTIONS } from './reducer';
+import MoviesList from './components/MoviesList';
+import SearchBar from './components/SearchBar';
 import './styles.scss';
 
-function Discover({ emptyResults, error, loading, movies, setSearchQuery }) {
-  const handleSearch = useCallback((event) => {
-    setSearchQuery(event.target.value);
-  }, [setSearchQuery]);
+
+function Discover() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const filteredMovies = useMemo(() => {
+    return state.ratingFilter ? state.movies.filter(movie => movie.vote_average <= state.ratingFilter && movie.vote_average > state.ratingFilter - 2) : state.movies;
+  }, [state.ratingFilter, state.movies]);
+
+  const emptyResults = (!filteredMovies || filteredMovies.length <= 0) && state.queryStatus === REQUEST_STATES.DONE;
+  const loading = state.queryStatus === REQUEST_STATES.LOADING;
+  const isRatingMeterDisabled = loading || !state.movies || (state.movies && !state.movies.length);
+
+  const getPopularMovies = () => {
+    dispatch({ type: ACTIONS.GET_MOVIES });
+
+    MoviesService.discover()
+      .then(data => dispatch({ type: ACTIONS.GET_MOVIES_SUCCESS, payload: data.results }))
+      .catch(err => dispatch({ type: ACTIONS.GET_MOVIES_FAILURE, payload: err }));
+  };
+
+  const searchMovie = (query) => {
+    dispatch({ type: ACTIONS.SET_SEARCH_QUERY, payload: query });
+
+    MoviesService.search(query)
+      .then(data => dispatch({ type: ACTIONS.SET_SEARCH_QUERY_SUCCESS, payload: data.results }))
+      .catch(err => dispatch({ type: ACTIONS.SET_SEARCH_QUERY_FAILURE, payload: err }));
+  }
+
+  const handleSearch = (value) => {
+    if (value && !!value.length) {
+      searchMovie(value);
+    } else {
+      getPopularMovies();
+    }
+  };
+
+  const handleFilter = (rating) => {
+    dispatch({ type: ACTIONS.SET_RATING_FILTER, payload: rating });
+  };
+
+  useEffect(() => {
+    getPopularMovies();
+  }, []);
 
   return (
     <section className="section section--discover">
       <div className="section__header">
         <h1 className="section__title">Everything you want to watch, the way you like it</h1>
-        <Field
-          className="section__search-input"
-          type={INPUT_TYPES.SEARCH}
-          name={DISCOVER_FIELDS.SEARCH}
-          label="Look for a movie"
-          onChange={handleSearch}
-        />
+        <SearchBar className="section__search-bar" onSearch={handleSearch} />
+        <RatingMeter rating={state.ratingFilter} onChange={handleFilter} disabled={isRatingMeterDisabled} />
       </div>
-      <div className="movies-list">
-        {loading && <h2>Loading movies...</h2>}
-        {emptyResults && <h2>No results ¯\_(ツ)_/¯</h2>}
-        {error && <h2>{error}</h2>}
-        {!loading && movies && !!movies.length && (
-          movies.map(movie => (
-            <Movie key={movie.id} className="discover__movie" {...movie} />
-          ))
-        )}
-      </div>
+      <MoviesList
+        emptyResults={emptyResults}
+        error={state.error}
+        loading={loading}
+        movies={filteredMovies}
+      />
     </section>
   );
 }
 
-function DiscoverContainer() {
-  const { error, movies, requestState, setSearchQuery } = useContext(MoviesContext);
-  const debouncedSetSearchQuery = debounce(setSearchQuery);
-  const emptyResults = (!movies || movies.length <= 0) && requestState === REQUEST_STATES.DONE;
-  const loading = requestState === REQUEST_STATES.LOADING;
-
-  return (
-    <Discover
-      emptyResults={emptyResults}
-      error={error}
-      loading={loading}
-      movies={movies}
-      setSearchQuery={debouncedSetSearchQuery}
-    />
-  )
-}
-
-export default DiscoverContainer;
+export default Discover;
