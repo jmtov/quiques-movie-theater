@@ -2,5 +2,7 @@ export const PATHS = {
   DISCOVER: {
     MOVIE: '/discover/movie',
   },
-  SEARCH: '/search'
+  SEARCH: {
+    MOVIE: '/search/movie'
+  },
 };

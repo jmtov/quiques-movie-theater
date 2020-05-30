@@ -34,5 +34,26 @@ export const MoviesService = {
     } catch (err) {
       console.error(err);
     }
+  },
+  async search(query, options) {
+    const QUERY_PARAMS = getQueryParamsFromObj({ ...DEFAULT_QUERY, query });
+    const URL = `${API_BASE_URL}${PATHS.SEARCH.MOVIE}${QUERY_PARAMS}`;
+
+    try {
+      const response = await fetch(URL, {
+        method: HTTP_METHODS.GET,
+        headers: {
+          ...DEFAULT_HEADERS,
+        },
+      });
+
+      if (response.status !== STATUS_CODES.OK) {
+        throw response;
+      }
+
+      return response.json();
+    } catch (err) {
+      console.error(err);
+    }
   }
 }

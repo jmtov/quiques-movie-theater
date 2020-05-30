@@ -1,3 +1,15 @@
+.section {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
+  width: 100%;
+
+  &__search-input {
+    margin-bottom: 20px;
+  }
+}
+
 .movies-list {
   display: flex;
   flex-wrap: wrap;
