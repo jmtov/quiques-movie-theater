@@ -13,7 +13,29 @@ const DEFAULT_QUERY = {
   'api_key': API_KEY,
 };
 
+// TODO: Optimize service calls
 export const MoviesService = {
+  async configuration(query, options) {
+    const QUERY_PARAMS = getQueryParamsFromObj({ ...DEFAULT_QUERY, ...query});
+    const URL = `${API_BASE_URL}${PATHS.CONFIGURATION}${QUERY_PARAMS}`;
+
+    try {
+      const response = await fetch(URL, {
+        method: HTTP_METHODS.GET,
+        headers: {
+          ...DEFAULT_HEADERS,
+        },
+      });
+
+      if (response.status !== STATUS_CODES.OK) {
+        throw response;
+      }
+
+      return response.json();
+    } catch (err) {
+      console.error(err);
+    }
+  },
   async discover(query, options) {
     const QUERY_PARAMS = getQueryParamsFromObj({ ...DEFAULT_QUERY, ...query});
     const URL = `${API_BASE_URL}${PATHS.DISCOVER.MOVIE}${QUERY_PARAMS}`;
@@ -55,5 +77,26 @@ export const MoviesService = {
     } catch (err) {
       console.error(err);
     }
-  }
+  },
+  async movieDetail(id, query, options) {
+    const QUERY_PARAMS = getQueryParamsFromObj({ ...DEFAULT_QUERY, ...query});
+    const URL = `${API_BASE_URL}${PATHS.MOVIE}/${id}${QUERY_PARAMS}`;
+
+    try {
+      const response = await fetch(URL, {
+        method: HTTP_METHODS.GET,
+        headers: {
+          ...DEFAULT_HEADERS,
+        },
+      });
+
+      if (response.status !== STATUS_CODES.OK) {
+        throw response;
+      }
+
+      return response.json();
+    } catch (err) {
+      console.error(err);
+    }
+  },
 }

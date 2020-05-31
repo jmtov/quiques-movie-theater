@@ -1,37 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import { number, string } from 'prop-types';
+import React from 'react';
+import { func, number, string } from 'prop-types';
 
 import { cn } from 'utils/styles';
+import useImage from 'hooks/useImage';
 
 import './styles.scss';
 
-function Movie({ className, id, title, poster_path, release_date }) {
-  const [poster, setPoster] = useState(null);
+function Movie({ backdrop_path, className, id, onSelect, poster_path, release_date, title }) {
+  const { posters } = useImage({ poster_path, backdrop_path });
+  const poster = posters[3];
 
-  useEffect(() => {
-    // TODO: Add logic to get movie poster
-    setPoster(null);
-  }, []);
+  const handleClick = () => {
+    onSelect(id);
+  };
 
   return (
-    <div className={cn("movie", className)}>
+    <div className={cn("movie", className, !poster && 'movie--no-poster')} onClick={handleClick} tabIndex={0}>
+      <div className="movie__poster-container">
+        {poster && <img className="movie__poster" src={poster} alt={title} />}
+      </div>
       <div className="movie__data-container">
         <h3 className="movie__title">{title}</h3>
-        <p className="movie__release-date">{release_date}</p>
-      </div>
-      <div className="movie__poster-container">
-        {poster && <img className="movie__poster" alt={title} />}
+        {release_date && <p className="movie__release-date">{release_date.split('-')[0]}</p>}
       </div>
     </div>
   )
 }
 
 Movie.propTypes = {
-  title: string.isRequired,
-  release_date: string.isRequired,
   className: string,
   id: number.isRequired,
-  poster_path: string.isRequired
+  onSelect: func.isRequired,
+  poster_path: string.isRequired,
+  release_date: string.isRequired,
+  title: string.isRequired,
 }
 
 export default Movie;
