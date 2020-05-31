@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
+import MoviesContextProvider from 'contexts/movies';
 import Discover from 'screens/Discover';
+import MovieDetailModal from 'screens/MovieDetailModal';
 
 function App() {
-  useEffect(() => {
-    // TODO: Add configuration request
-  }, []);
-
   return (
     <div className="app">
-      <Discover />
+      <MoviesContextProvider>
+        <Discover />
+        <MovieDetailModal />
+      </MoviesContextProvider>
     </div>
   );
 }

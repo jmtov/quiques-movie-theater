@@ -1,4 +1,6 @@
+@import './variables/animation';
 @import './variables/colors';
+@import './variables/sizes';
 
 * {
   box-sizing: border-box;
@@ -8,6 +10,7 @@
 }
 
 body {
+  background-color: var(--bg-color);
   color: var(--text-color);
   font-family: Arial, Helvetica, sans-serif;
   letter-spacing: -1px;

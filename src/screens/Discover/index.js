@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo, useReducer } from 'react';
+import React, { useEffect, useMemo, useReducer, useContext } from 'react';
 
 import { REQUEST_STATES } from 'constants/network';
+import { MoviesContext } from 'contexts/movies';
 import { MoviesService } from 'services/movies';
 import RatingMeter from 'components/RatingMeter';
 
-import { reducer, initialState, ACTIONS } from './reducer';
+import { ACTIONS, reducer, initialState } from './reducer';
 import MoviesList from './components/MoviesList';
 import SearchBar from './components/SearchBar';
 import './styles.scss';
@@ -12,6 +13,7 @@ import './styles.scss';
 
 function Discover() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { setCurrentMovieId } = useContext(MoviesContext);
 
   const filteredMovies = useMemo(() => {
     return state.ratingFilter ? state.movies.filter(movie => movie.vote_average <= state.ratingFilter && movie.vote_average > state.ratingFilter - 2) : state.movies;
@@ -35,7 +37,7 @@ function Discover() {
     MoviesService.search(query)
       .then(data => dispatch({ type: ACTIONS.SET_SEARCH_QUERY_SUCCESS, payload: data.results }))
       .catch(err => dispatch({ type: ACTIONS.SET_SEARCH_QUERY_FAILURE, payload: err }));
-  }
+  };
 
   const handleSearch = (value) => {
     if (value && !!value.length) {
@@ -47,6 +49,10 @@ function Discover() {
 
   const handleFilter = (rating) => {
     dispatch({ type: ACTIONS.SET_RATING_FILTER, payload: rating });
+  };
+
+  const handleMovieSelect = (id) => {
+    setCurrentMovieId(id);
   };
 
   useEffect(() => {
@@ -65,6 +71,7 @@ function Discover() {
         error={state.error}
         loading={loading}
         movies={filteredMovies}
+        onMovieSelect={handleMovieSelect}
       />
     </section>
   );

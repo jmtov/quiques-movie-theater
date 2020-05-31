@@ -1,0 +1,13 @@
+.movies-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-right: -1em;
+  max-width: var(--movies-list-width);
+  width: 100%;
+
+  .movie {
+    margin-bottom: 1em;
+    margin-right: 1em;
+  }
+}
