@@ -10,8 +10,8 @@ import styles from  './styles.module.scss';
 const RATING_VALUES = [1, 2, 3, 4, 5];
 const SCALE_MULTIPLIER = 2;
 
-function RatingMeter({ className, disabled, onChange, rating, readOnly }) {
-  const [currentSelection, setCurrentSelection] = useState(rating);
+function RatingMeter({ className, disabled, onChange, rating, readOnly, showRatingValue }) {
+  const [currentSelection, setCurrentSelection] = useState(Math.round(rating));
   const normalizedCurrentSelection = useMemo(() => currentSelection / SCALE_MULTIPLIER, [currentSelection]);
 
   const handleChange = (event) => {
@@ -23,7 +23,7 @@ function RatingMeter({ className, disabled, onChange, rating, readOnly }) {
   };
 
   useEffect(() => {
-    setCurrentSelection(rating);
+    setCurrentSelection(Math.round(rating));
   }, [rating]);
 
   return (
@@ -50,16 +50,22 @@ function RatingMeter({ className, disabled, onChange, rating, readOnly }) {
           />
         </div>
       ))}
+      {showRatingValue && <span className={styles["rating-meter__value"]}>{`${rating} - Vote average`}</span>}
     </div>
-  )
-}
+  );
+};
+
+RatingMeter.defaultProps = {
+  showRatingValue: false,
+};
 
 RatingMeter.propTypes = {
   clasName: string,
   disabled: bool,
   onChange: func,
   readOnly: bool,
-  rating: number
-}
+  rating: number,
+  showRatingValue: bool,
+};
 
 export default RatingMeter;
