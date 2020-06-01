@@ -46,10 +46,6 @@ function MovieDetailModal() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMovieId]);
 
-  useEffect(() => {
-    setVisible(true);
-  }, []);
-
   return currentMovieId ? (
     <div className={cn("modal", !visible && 'modal--hidden')} onClick={handleClick} onTransitionEnd={handleTransitionEnd}>
       <div className="modal__content-wrapper">
