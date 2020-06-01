@@ -19,7 +19,7 @@ function SearchBar({ className, onSearch }) {
 
   return (
     <Field
-      className="section__search-input"
+      className={className}
       type={INPUT_TYPES.SEARCH}
       name={DISCOVER_FIELDS.SEARCH}
       label="Look for a movie"

@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { bool, func, number, string } from 'prop-types';
 
+import { ReactComponent as Star } from 'assets/star.svg';
 import { INPUT_TYPES } from 'constants/form';
 import { cn } from 'utils/styles';
 
-import './styles.scss';
+import styles from  './styles.module.scss';
 
 const RATING_VALUES = [1, 2, 3, 4, 5];
 const SCALE_MULTIPLIER = 2;
 
 function RatingMeter({ className, disabled, onChange, rating, readOnly }) {
   const [currentSelection, setCurrentSelection] = useState(rating);
-  const normalizedCurrentSelection = currentSelection / SCALE_MULTIPLIER;
+  const normalizedCurrentSelection = useMemo(() => currentSelection / SCALE_MULTIPLIER, [currentSelection]);
 
   const handleChange = (event) => {
     if (readOnly || disabled) return;
@@ -26,12 +27,18 @@ function RatingMeter({ className, disabled, onChange, rating, readOnly }) {
   }, [rating]);
 
   return (
-    <div className={cn('rating-meter', className)}>
+    <div className={cn(styles['rating-meter'], className, readOnly && styles['rating-meter--read-only'])}>
       {RATING_VALUES.map(value => (
-        <div key={value} className={'star'}>
-          <label className="star__label" htmlFor={`${value}-star`}>{value}</label>
+        <div
+          key={value}
+          className={cn(styles['star'], normalizedCurrentSelection >= value && styles['star--checked'])}
+          title={`${value} ${value > 1 ? 'stars' : 'star'}`}
+        >
+          <label className={styles['star__label']} htmlFor={`${value}-star`}>
+            <Star className={styles['star__icon']} />
+          </label>
           <input
-            className="star__input"
+            className={styles['star__input']}
             disabled={disabled}
             type={INPUT_TYPES.CHECKBOX}
             value={value}

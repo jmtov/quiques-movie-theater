@@ -9,7 +9,7 @@ import './styles.scss';
 function MoviesList({ emptyResults, error, loading, movies, onMovieSelect }) {
 
   return (
-    <div className="movies-list">
+    <div className="list">
       {loading && <h2>Loading movies...</h2>}
       {emptyResults && <h2>No results ¯\_(ツ)_/¯</h2>}
       {error && <h2>{error}</h2>}
@@ -17,7 +17,7 @@ function MoviesList({ emptyResults, error, loading, movies, onMovieSelect }) {
         movies.map(movie => (
           <Movie
             key={movie.id}
-            className="discover__movie"
+            className="list__item"
             onSelect={onMovieSelect}
             {...movie}
           />
