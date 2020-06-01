@@ -1,6 +1,6 @@
 ## Quique's Movie Theather Website
 
-This is a sample project to integrate with the TMDB 
+This is a sample project to integrate with the [TMDB API](https://developers.themoviedb.org/3/getting-started/introduction).
 
 ### Running this project
 To run this project:
