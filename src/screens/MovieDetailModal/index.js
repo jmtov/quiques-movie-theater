@@ -1,12 +1,13 @@
 import React, { useEffect, useReducer, useState, useContext } from 'react';
 
 import { cn } from 'utils/styles';
+import { ReactComponent as CancelIcon } from 'assets/cancel.svg';
 import { REQUEST_STATES } from 'constants/network';
 import { MoviesService } from 'services/movies';
 import { MoviesContext } from 'contexts/movies';
+import MovieDetail from 'components/MovieDetail';
 
 import { ACTIONS, initialState, reducer } from './reducer';
-import MovieDetail from './components/MovieDetail';
 import './styles.scss';
 
 function MovieDetailModal() {
@@ -54,7 +55,9 @@ function MovieDetailModal() {
       <div className="modal__content-wrapper">
         {queryStatus === REQUEST_STATES.LOADING && <h3>Loading Movie Data...</h3>}
         {queryStatus === REQUEST_STATES.DONE && movie && <MovieDetail {...movie} />}
-        <button className="modal__close-button" onClick={handleClick}>X</button>
+        <button className="modal__close-button" onClick={handleClick}>
+          <CancelIcon />
+        </button>
       </div>
     </div>
   ) : null;

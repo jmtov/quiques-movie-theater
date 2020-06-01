@@ -2,18 +2,77 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  max-width: 1000px;
   width: 100%;
 
   &__header {
-    padding: 20px;
+    display: flex;
+    justify-content: center;
+    min-height: 40vh;
+    padding: 1rem;
+    width: 100%;
+  }
+
+  &__content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    width: 100%;
+  }
+}
+
+.header {
+  &__logo {
+    height: 70px;
+    object-fit: contain;
+    margin-bottom: 2rem;
+    width: 70px;
   }
 
   &__title {
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
+    text-align: center;
+    padding: 0 2rem;
   }
 
   &__search-bar {
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
+    max-width: 400px;
+    width: 100%;
   }
+}
+
+.list-header {
+  backdrop-filter: blur(10px);
+  background-color: var(--bg-color-translucent);
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+
+  .content-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+
+  .list-header__title {
+    margin-right: 1rem;
+  }
+
+  .list-header__filter {
+    align-items: center;
+    display: flex;
+  }
+}
+
+.content-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: var(--movies-list-width);
+  width: 100%;
 }
