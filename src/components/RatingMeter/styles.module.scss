@@ -1,0 +1,45 @@
+.rating-meter {
+  align-items: center;
+  display: flex;
+
+  &--read-only {
+    pointer-events: none;
+
+    .star__label {
+      cursor: unset;
+    }
+  }
+
+  &__value {
+    font-weight: bold;
+    margin-left: 1rem;
+  }
+}
+
+.star {
+  align-items: center;
+  color: var(--gray-100);
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+  text-align: center;
+
+  &__input {
+    display: none;
+  }
+
+  &__label {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+  }
+
+  &__icon {
+    height: 20px;
+    width: 20px;
+  }
+
+  &--checked {
+    color: var(--accent-color);
+  }
+}
