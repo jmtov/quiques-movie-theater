@@ -7,11 +7,12 @@
   &__label {
     position: absolute;
     font-size: 1em;
-    padding: 0.5rem;
+    opacity: 0.7;
+    padding: 1rem;
     pointer-events: none;
     transform: translateX(0.6rem);
     transform-origin: left;
-    transition: transform var(--t-duration-quick);
+    transition: transform var(--t-duration-quick), opacity var(--t-duration-quick);
   }
 
   &__input {
@@ -26,6 +27,7 @@
   &--filled {
     .field__label {
       background-color: var(--bg-color);
+      opacity: 1;
       transform: translate(0.5rem, -2rem);
     }
   }

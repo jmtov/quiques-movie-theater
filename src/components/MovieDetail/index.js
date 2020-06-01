@@ -29,7 +29,7 @@ function MovieDetail({
         <div className={styles['header__main-data']}>
           <h2 className={styles['header__title']}>{original_title}</h2>
           {tagline && <h3 className={styles['header__tagline']}>{tagline}</h3>}
-          {vote_average && <RatingMeter className={styles['header__rating']} rating={vote_average} readOnly />}
+          {vote_average && <RatingMeter className={styles['header__rating']} rating={vote_average} readOnly showRatingValue />}
           {runtime && <span className={styles['header__runtime']}>{`${runtime} min`}</span>}
         </div>
       </div>
@@ -46,11 +46,11 @@ function MovieDetail({
             <p className={['data-bitstyles__value']}>{overview}</p>
           </div>
         )}
-        {genres && !genres.length && (
+        {genres && !!genres.length && (
           <div className={styles['data-bit']}>
             <h3 className={styles['data-bit__title']}>Genres</h3>
-            <p className={styles['data-bit__value']}>
-              {genres.map((genre) => <span>{genre.name}</span>)}
+            <p className={styles['data-bit__value value-list']}>
+              {genres.map((genre) => <span key={genre.id} className={styles['value-list__item']}>{genre.name}</span>)}
             </p>
           </div>
         )}
@@ -58,7 +58,7 @@ function MovieDetail({
           <div className={styles['data-bit']}>
             <h3 className={styles['data-bit__title']}>Country</h3>
             <p className={styles['data-bit__value value-list']}>
-              {production_countries.map((country) => <span className={styles['value-list__item']}>{country.name}</span>)}
+              {production_countries.map((country) => <span key={country.id} className={styles['value-list__item']}>{country.name}</span>)}
             </p>
           </div>
         )}

@@ -1,4 +1,5 @@
 .rating-meter {
+  align-items: center;
   display: flex;
 
   &--read-only {
@@ -7,6 +8,11 @@
     .star__label {
       cursor: unset;
     }
+  }
+
+  &__value {
+    font-weight: bold;
+    margin-left: 1rem;
   }
 }
 

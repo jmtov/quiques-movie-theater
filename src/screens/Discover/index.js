@@ -19,7 +19,15 @@ function Discover() {
   const [listTitle, setListTitle] = useState(DEFAULT_LIST_TITLE);
 
   const filteredMovies = useMemo(() => {
-    return state.ratingFilter ? state.movies.filter(movie => movie.vote_average <= state.ratingFilter && movie.vote_average > state.ratingFilter - 1) : state.movies;
+    if (state.ratingFilter) {
+      const filteredMovies = state.movies.filter(movie => {
+        const roundedRating = Math.round(movie.vote_average);
+        return roundedRating >= state.ratingFilter && roundedRating <= state.ratingFilter + 1;
+      });
+
+      return filteredMovies;
+    }
+    return state.movies
   }, [state.ratingFilter, state.movies]);
 
   const emptyResults = (!filteredMovies || filteredMovies.length <= 0) && state.queryStatus === REQUEST_STATES.DONE;
